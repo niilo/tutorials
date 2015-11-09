@@ -189,7 +189,7 @@ aws iam create-policy \
 This will return json with Arn value that we need for attaching role to policy, in this example returned value Arn is:
 
 ```json
-        "Arn": "arn:aws:iam::333333333333:policy/PolicyForS3CrossAccountCrossRegionReplication-my-important-data-bucket",
+        "Arn": "arn:aws:iam::111111111111:policy/PolicyForS3CrossAccountCrossRegionReplication-my-important-data-bucket",
 ```
 
 Attach created role to created policy
@@ -197,7 +197,7 @@ Attach created role to created policy
 ```bash
 aws iam attach-role-policy \
 --role-name RoleForS3CrossAccountCrossRegionReplication \
---policy-arn arn:aws:iam::333333333333:policy/PolicyForS3CrossAccountCrossRegionReplication-my-important-data-bucket \
+--policy-arn arn:aws:iam::111111111111:policy/PolicyForS3CrossAccountCrossRegionReplication-my-important-data-bucket \
 --profile master-aws-account
 ```
 
@@ -206,7 +206,7 @@ Create replication configuration S3-replication-my-important-data-bucket.json:
 ```json
 tee S3-replication-my-important-data-bucket.json <<EOF
 {
-  "Role": "arn:aws:iam::333333333333:role/RoleForS3CrossAccountCrossRegionReplication",
+  "Role": "arn:aws:iam::111111111111:role/RoleForS3CrossAccountCrossRegionReplication",
   "Rules": [
     {
       "Prefix": "",
