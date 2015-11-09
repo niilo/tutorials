@@ -46,14 +46,15 @@ Enable versioning on both buckets:
 
 ```bash
 aws s3api put-bucket-versioning --bucket my-important-data-bucket \
---versioning-configuration MFADelete=Enabled,Status=Enabled \
+--versioning-configuration MFADelete=Disabled,Status=Enabled \
 --profile master-aws-account
 ```
 
 ```bash
 aws s3api put-bucket-versioning --bucket my-important-data-bucket-replica \
---versioning-configuration MFADelete=Enabled,Status=Enabled \
---profile backup-aws-account
+--versioning-configuration MFADelete=Disabled,Status=Enabled \
+--profile backup-aws-account \
+--region eu-central-1
 ```
 
 ### Create IAM profiles and roles for cross account and cross region replicaation
@@ -103,7 +104,8 @@ assign bucket policy to backup-aws-account account's my-important-data-bucket-re
 aws s3api put-bucket-policy \
 --bucket my-important-data-bucket-replica \
 --policy file://S3-bucket-policy-my-important-data-bucket-replica.json \
---profile backup-aws-account
+--profile backup-aws-account \
+--region eu-central-1
 ```
 
 Create S3-role-trust-policy.json:
@@ -210,7 +212,7 @@ tee S3-replication-my-important-data-bucket.json <<EOF
       "Prefix": "",
       "Status": "Enabled",
       "Destination": {
-        "Bucket": "arn:aws:s3:::my-important-data-bucket"
+        "Bucket": "arn:aws:s3:::my-important-data-bucket-replica"
       }
     }
   ]
@@ -248,7 +250,7 @@ List bucket contents:
 
 ```bash
 aws s3 ls s3://my-important-data-bucket --profile master-aws-account
-aws s3 ls s3://my-important-data-bucket --profile backup-aws-account
+aws s3 ls s3://my-important-data-bucket-replica --profile backup-aws-account --region eu-central-1
 ```
 
 ## Extras
