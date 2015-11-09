@@ -253,6 +253,12 @@ aws s3 ls s3://my-important-data-bucket --profile master-aws-account
 aws s3 ls s3://my-important-data-bucket-replica --profile backup-aws-account --region eu-central-1
 ```
 
+Remove test-replication.txt file from S3
+
+```bash
+aws s3 rm s3://my-important-data-bucket/test-replication.txt --profile master-aws-account
+```
+
 ## Extras
 
 ## Sync already existing files
